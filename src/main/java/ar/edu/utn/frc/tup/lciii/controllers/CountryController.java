@@ -1,5 +1,6 @@
 package ar.edu.utn.frc.tup.lciii.controllers;
 import ar.edu.utn.frc.tup.lciii.dtos.common.CountryDTO;
+import ar.edu.utn.frc.tup.lciii.dtos.common.SaveResquest;
 import ar.edu.utn.frc.tup.lciii.service.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,18 @@ public class CountryController {
         return ResponseEntity.ok(countryService.getCountriesByContinent(continent));
     }
 
-    @GetMapping("/countries/{language}/continent")
-    public ResponseEntity<List<CountryDTO>> getCountriesByLanguage(@PathVariable String language) {
+    @GetMapping("/countries/{language}/language")
+    public ResponseEntity<List<CountryDTO>> getCountriesByLanguage(@PathVariable(required = false) String language) {
         return ResponseEntity.ok(countryService.getCountriesByLanguaje(language));
     }
 
+    @GetMapping("/countries/most-borders")
+    public ResponseEntity<CountryDTO> getCountryWithMostBorders() {
+        return ResponseEntity.ok(countryService.getCountryWithMostBorders());
+    }
+
+    @PostMapping("/countries")
+    public ResponseEntity<List<CountryDTO>> saveCountries(@RequestBody SaveResquest saveResquest) {
+        return ResponseEntity.ok(countryService.saveCountries(saveResquest.getAmountOfCountryToSave()));
+    }
 }
